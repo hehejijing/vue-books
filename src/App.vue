@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bookList v-for="obj in list" :key="obj.id" :obj="obj"></bookList>
+    <bookList :list="list"></bookList>
   </div>
 </template>
 
