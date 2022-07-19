@@ -1,0 +1,71 @@
+<template>
+  <el-table :data="obj" style="width: 100%">
+    <el-table-column label="`${obj.id}`" prop="obj"> </el-table-column>
+    <el-table-column label="" prop="obj"> </el-table-column>
+    <el-table-column label="作者" prop="name"> </el-table-column>
+    <el-table-column label="出版社" prop="name"> </el-table-column>
+    <el-table-column label="操作" prop="name"> </el-table-column>
+    <el-table-column align="right">
+      <template slot="header">
+        <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+      </template>
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)"
+          >删除</el-button
+        >
+        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+          >详情</el-button
+        >
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄",
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄",
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄",
+        },
+      ],
+      search: "",
+    };
+  },
+  methods: {
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+    },
+  },
+  props: {
+    obj:{
+      type: Object,
+      default:() =>({})
+    }
+  }
+};
+</script>

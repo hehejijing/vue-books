@@ -1,28 +1,30 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <bookList v-for="obj in list" :key="obj.id" :obj="obj"></bookList>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import bookList from "./components/book-list.vue"
 export default {
   name: 'App',
+  data() {
+    return {
+      list :[]
+    }
+  },
   components: {
-    HelloWorld
+    bookList
+  },
+  created () {
+    this.$axios({
+      url:"/api/getbooks",
+    }).then(res => {
+      this.list = res.data.data
+      console.log(this.list);
+    })
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
