@@ -1,7 +1,6 @@
 <template>
   <div class="box">
     <input ref="ss" @keyup.enter="searchFn" type="search" placeholder="搜索—书本名称" style="padding-left: 10px;height:30px;padding-right: 10px">
-    <!-- <button @click="btn">删除</button> -->
     <el-table :data="list" style="width: 100% ;margin-top:10px" :border="true" >
       <el-table-column label="序号" prop="id" min-width="15%">
       </el-table-column>
@@ -42,28 +41,13 @@ export default {
       },
       tableData: [],
       search: "",
-      list1 : this.list
-      
+      book : []
     };
   },
-  mounted() {
-    this.tableData = this.ist;
-    // console.log(this.tableData);
-  },
+
   methods: {
-
-    //批量删除
-
-    // btn() {
-    //     for(let i = 2000; i< 3000; i++) {
-    //       this.$axios({
-    //         url: "/api/delbook",
-    //         params: {
-    //           id: i,
-    //         }
-    //     })
-    //     }
-    // },
+    
+    
     //查看书籍详情
 
     //搜索
@@ -73,17 +57,28 @@ export default {
     if (!this.$refs.ss.value.trim()){
       return alert("不会打字？");
     }
-     const showList = this.list.filter((obj) => obj.bookname == this.$refs.ss.value)
-     if (showList.length <1 ){
-        return alert("暂无数据，请确认书名是否正确")
-     } 
-     else {
-
-    // console.log(this.list);
-    // console.log(showList);
-    }
+    this.$axios({
+      url:"/api/getbooks",
+      params:{
+        bookname:this.$refs.ss.value
+      }
+    }).then(res => {
+      console.log(res);
+      this.$emit("searchFn",res.data.data)
+    })
+    // this.showList = this.list.filter((obj) => obj.bookname == this.$refs.ss.value)
+    //  if (this.showList.length <1 ){
+    //     return alert("暂无数据，请确认书名是否正确")
+    //  } 
+    //  else {
+    //   console.log(this.showList);
+    //   this.$emit("searchFn",this.showList)
+    // // console.log(this.list);
+    // // console.log(showList);
+    // }
     
   },
+
     handleEdit(index, row) {
       this.$alert(
         `
@@ -114,7 +109,9 @@ export default {
               id: row.id,
             },
           }).then((res) =>{             
+            this.$emit("getList",1)
             alert(res.data.msg)
+
           });
         })
         .catch(() => {
@@ -125,7 +122,13 @@ export default {
         });
     },
   },
-  props: ["list"]
+  props: {
+    list :{
+      type: Array,
+      default:()=>[]
+    },
+    
+  }
 };
 </script>
 <style scoped>

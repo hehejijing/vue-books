@@ -59,8 +59,12 @@ export default {
           url: "/api/addbook",
           method: "post",
           data,
-        }).then(() => {
-          (this.bookname = ""), (this.author = ""), (this.publisher = "");
+        }).then((res) => {
+          this.$emit("getList", 1);
+          alert(res.data.msg);
+          this.bookname = "";
+          this.author = "";
+          this.publisher = "";
         });
       }
     },

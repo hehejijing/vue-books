@@ -1,52 +1,61 @@
 <template>
   <div width="60%">
-    
-    <bookList :list="list" ></bookList><br>
-    <bookLAdd></bookLAdd>
+    <bookList
+      :list="list"
+      @getList="getList"
+      @searchFn="searchFn"
+    ></bookList
+    ><br />
+    <bookLAdd @getList="getList"></bookLAdd>
   </div>
 </template>
 
 <script>
-import bookList from "./components/book-list.vue"
-import bookLAdd from "./components/book-add.vue"
+import bookList from "./components/book-list.vue";
+import bookLAdd from "./components/book-add.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      list :[],
-      showList:[]
-    }
+      list: [],
+    };
   },
   components: {
     bookList,
-    bookLAdd
+    bookLAdd,
   },
-  methods:{
-
+  methods: {
+    //获取数据
+    getList() {
+      this.$axios({
+        url: "/api/getbooks",
+      }).then((res) => {
+        this.list = res.data.data;
+        // console.log(this.list);
+      });
+    },
+    searchFn(val) {
+      console.log(val);
+      this.list = val
+      // console.log(this.list);
+    },
   },
 
   //页面初始化
 
-  created () {
-    this.$axios({
-      url:"/api/getbooks",
-    }).then(res => {
-      this.list = res.data.data
-      // console.log(this.list);
-    })
+  created() {
+    this.getList();
   },
-
-  //用于在删除或增加数据后自动渲染页面
-  updated(){
-    this.$axios({
-      url:"/api/getbooks",
-    }).then(res => {
-      this.list = res.data.data
-      // console.log(this.list);
-    })
-  }
-}
+  // watch: {
+  //   searchFn(val){
+  //     if(val){
+  //       this.list = val
+  //       this.getList()
+  //     }
+  //   }
+  // }
+};
 </script>
 
 <style></style>
